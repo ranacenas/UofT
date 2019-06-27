@@ -22,7 +22,7 @@ class CourseForm(forms.Form):
       
         return course
 
-    def c(self, campus, br):
+    def main_search(self, campus, br):
       #for local dev
         db1 = 'uoftpre'
         user = config('USER')
@@ -31,35 +31,20 @@ class CourseForm(forms.Form):
         port = config('PORT')
         conn = psycopg2.connect(dbname = db1, user = user, password = pw, host = host, port=port)
 
-      #heroku dev
-      # DATABASE_URL = os.environ['DATABASE_URL']
-      # conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-
         cur = conn.cursor()
-        cur2 = conn.cursor()
+
         sql = """SELECT code FROM allofuoft WHERE pre ILIKE '%{code}%' AND campus LIKE '{campus}' AND br LIKE '{br}'"""
-        #sql2 = """SELECT coursename FROM allofuoft WHERE pre ILIKE '%{code}%' AND campus = '{campus}'"""
         new = sql.format(code=self, campus=campus, br=br)
+        cur.execute(new) #executes SQL
 
-        #new2 = sql2.format(code=self, campus=campus)
-        cur.execute(new)
-        #cur2.execute(new2)
+        results = (cur.fetchall())
 
-        y = (cur.fetchall())
-        #z = (cur2.fetchall())
-
+        #adds to dictionary
         dic = {}
+        dic['codee'] = results
 
-        dic['codee'] = y
-        #dic['cnamee'] = z
-        #cur.execute(new2)
-        #z = (cur.fetchall())
-
-        #dic['name'] = z
         cur.close()
-        #cur2.close()
-        
-        #you = [list(i) for i in y]
+
         return dic
       
 

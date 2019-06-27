@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UofT Prerequisite Tool</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-142482970-1"></script>
+    <script>
+       window.dataLayer = window.dataLayer || [];
+       function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+       gtag('config', 'UA-142482970-1');
+     </script>
+
+    {% load static %}
+    <script src={% static '/thepath/thepath.js' %}></script>
+    
+<style>
+html {
+  font-size: 1rem;
+}
+
+@include media-breakpoint-up(sm) {
+  html {
+    font-size: 1.2rem;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  html {
+    font-size: 1.4rem;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  html {
+    font-size: 1.6rem;
+  }
+}
+/* Style the buttons */
+.btn {
+
+  padding: 10px 16px;
+  background-color: #F2F5F6;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Style the active class, and buttons on mouse-over */
+.active, .btn:hover {
+  background-color: #5bc0de;
+  color: white;
+}
+</style>
+</head>
+<body style="background-color: #ECECEC;">
+
+<div class="container-fluid">
+<nav class="navbar" style="background-color:rgb(10, 39, 92)" >
+<div class="dropdown">
+<div class="btn-group">
+	<button class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    	About / How to use
+  	</button>
+	<div class="dropdown-menu" style="width:500px;">
+	      <h6 class="dropdown-header">About</h6>
+        	<p>This web app allows students to find out what courses they can potentially take in the future using a course they have already taken or plan to take.</p>
+      	      <h6 class="dropdown-header">How to use</h6>
+		<p>Enter a course code (including its campus tag) that you have already taken or plan to take and hit search. Clicking/Tapping on buttons will display the courses that have the entered course code as the prerequisite. </p>
+
+	      <h6 class="dropdown-header">The Future</h6>
+		<p>More features will be added in the coming weeks. In addition, the source code will be available soon on github.</p>
+   	 </div>
+
+
+
+
+</div>
+<div class="btn-group">
+        <button class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Disclaimer
+        </button>
+        <div class="dropdown-menu" style="width:500px;">
+              <h6 class="dropdown-header">Disclaimer</h6>
+                <p>This web application is not affliated with the University of Toronto. Furthermore, the information displayed is 
+not guarranteed to be 100% correct, however, we do our best to ensure it's very accurate. Lastly, keep in mind that this tool only looks up 
+courses where the submitted course code is a prerequisite of. Therefore, to ensure your eligibility of a course, please visit the official calendar 
+to see the all of its prerequisites. <br>
+       			<strong>Database Last Updated:</strong> June 19, 2019
+		</p>
+
+         </div>
+
+
+
+</div>
+<div class="btn-group">
+        <button class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Questions, Concerns, Inquiries, or whatever else? 
+        </button>
+        <div class="dropdown-menu" style="width:500px;">
+              <h6 class="dropdown-header">Contact Me</h6>
+                <p>Send me an message through my <a href="https://ranacenas.me/contact/" target="_blank">website</a>
+                </p>
+
+         </div>
+
+
+
+</div>
+
+</div>
+
+
+</div>
+
+<div class="container-fluid">
+    <div class="media">
+	<div class="media-body">
+	<div style="background-color:rgb(10, 39, 92)" class="p-3 mb-2 text-white">
+	    <h2>UofT Prerequisite Path Tool</h2>		
+	    <h4>Enter a course code* and find the courses you can potentially take**.</h4>
+            <p>*Include the campus code. St. George = H1, Scarborough = H3, Mississauga = H5. **Read Disclaimer</p>
+	        <form class="form-inline" method="GET">
+                    <div class="form-group">
+                	    {{ B }} {{ campus }} {{ Br }}
+                   	 <button class="btn" type="submit">Search</button>
+                    </div>
+                </form>
+        </div>	
+	</div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row pt-2 justify-content-center">
+        <h5>First level</h5>
+    </div>
+    <div class="row pt-1 justify-content-center">
+        <div id="first" class="justify-content-center">
+            {% if rest %}
+            {% for i in rest.codee %}
+
+
+
+
+                    <a href="#out"><button id="{{ i | first}}" data-catid="{{ i | last}}" class="btn btn-outline-info first">{{i | first}}</button> </a>
+
+
+
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+
+
+    <div class="row pt-3 justify-content-center">
+        <h5>Second level</h5>
+    </div>
+    <div class="row pt-1 justify-content-center">
+        <h6>The courses you can potentially take with having &nbsp; </h6>
+        <div id="codeout">
+                
+        </div>
+        <h6> &nbsp; as a prerequisite are:</h6>
+    </div>
+    <div class="row pt-1 justify-content-center">
+
+        <div id="out" class="justify-content-center">
+
+           <p> Click on a course code</p>
+
+        </div>
+    </div>
+
+
+
+    <div class="row pt-3 justify-content-center">
+        <h5>Third level</h5>
+
+    </div>
+    <div class="row pt-1 justify-content-center">
+        <h6>The courses you can potentially take with having &nbsp; </h6>
+        <div id="thirdout">
+                
+        </div>
+        <h6> &nbsp; as a prerequisite are:</h6>
+    </div>
+    <div class="row pt-1 justify-content-center">
+        <div id="third">
+           <p>Click on a course code</p>
+
+        </div>
+    </div>
+
+
+    <div class="row pt-3 justify-content-center">
+        <h5>Fourth level</h5>
+
+    </div>
+    <div class="row pt-1 justify-content-center">
+        <h6>The courses you can potentially take with having &nbsp; </h6>
+        <div id="fourthout">
+                
+        </div>
+        <h6> &nbsp; as a prerequisite are:</h6>
+    </div>
+    <div class="row pt-1 justify-content-center">
+        <div id="fourth" class="justify-content-center">
+            <p>Click on a course code</p>
+
+        </div>
+    </div>
+
+
+    <div class="row pt-3 justify-content-center">
+        <h5>Fifth level</h5>
+    </div>
+    <div class="row pt-1 justify-content-center">
+        <h6>The courses you can potentially take with having &nbsp; </h6>
+        <div id="fifthout">
+                
+        </div>
+        <h6> &nbsp; as a prerequisite are:</h6>
+    </div>
+    <div class="row pt-1 justify-content-center">
+        <div id="fifth" class="">
+            <p>Click on a course code</p>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<footer>
+
+
+</footer>
+</html>
