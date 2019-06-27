@@ -1,0 +1,9 @@
+.env
+manage.py
+uoftenv/
+static/
+helper/
+thepath/migrations/
+thepath/__pycache__/
+thepath/models.py
+thepath/_init_.py
